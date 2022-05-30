@@ -1,0 +1,17 @@
+.post{
+    display: flex;
+    padding: 15px;
+    border: 2px solid teal;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.post__content{
+    background-color: red;
+}
+
+.post__btns{
+    background-color: red;
+    padding: 5px;
+}
