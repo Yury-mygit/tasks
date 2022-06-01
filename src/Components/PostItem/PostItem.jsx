@@ -1,8 +1,8 @@
 import React from 'react';
-import classes from './Post.module.scss'
-import "./Post.module.scss"
+import classes from './PostItem.module.scss'
+import "./PostItem.module.scss"
 
-const Post = (props) => {
+const PostItem = (props) => {
     return (
         <div className={classes.post}>
             <div className={classes.post__content}>
@@ -12,10 +12,10 @@ const Post = (props) => {
                </div>
             </div>
             <div className={classes.post__btns}>
-               <button>Удалить</button>
+               <button onClick={()=> props.remove(props.post)}>Удалить</button>
             </div>
         </div>
     );
 };
 
-export default Post;
+export default PostItem;
