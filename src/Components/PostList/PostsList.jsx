@@ -1,9 +1,21 @@
 import React from 'react';
 import {useState} from "react";
-import classes from "../App/App.module.scss";
+ import classes from "./postList.module.scss";
 import PostItem from "../PostItem/PostItem";
 
 const PostsList = ({posts,title, remove}) => {
+
+    if(!posts.length){
+       return ( <h1 className={classes.PostPlaceHolder} >
+            Посты не найдены
+        </h1>)
+
+
+
+    }
+
+
+
 
     return (
         <div>
