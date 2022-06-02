@@ -1,8 +1,9 @@
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import classes from './App.module.scss'
 import PostsList from "../PostList/PostsList";
 import PostForm from "../PostForm/PostForm";
 import MySelect from "../UI/Select/MySelect";
+import MyInput from "../UI/MyInput/MyInput";
 
 function App() {
 
@@ -14,6 +15,20 @@ function App() {
 
     const [selectedSort, setSelectedSort] = useState('')
 
+    const [searchQuery, setSearchQuery] = useState('')
+
+    const sortedPosts = useMemo( ()=>{
+        console.log('Отработала функция')
+        if (selectedSort){
+            return [...posts].sort((a, b) => a[selectedSort].localeCompare(b[selectedSort]))
+        }
+        return posts
+    }, [selectedSort, posts] )
+
+    const sortedAndSearchedPosts = useMemo( ()=>{
+            return sortedPosts.filter(post=> post.title.toLowerCase().includes(searchQuery))
+        }, [searchQuery,sortedPosts]
+    )
 
     const createPost = (newPost) =>{
         setPosts([...posts, newPost])
@@ -25,8 +40,7 @@ function App() {
 
     const sortPosts = (sort) =>{
       setSelectedSort( sort   )
-        setPosts( [...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-      console.log(sort)
+
     }
 
   return (
@@ -34,6 +48,13 @@ function App() {
         <PostForm  create={createPost}/>
 
         <hr className={classes.line} />
+
+
+        <MyInput
+            value = {searchQuery}
+            onChange = {e => setSearchQuery(e.target.value)}
+            placeholder='Поиск...'
+        />
 
         <MySelect
             value={selectedSort}
@@ -45,12 +66,13 @@ function App() {
             ]}
         />
 
-
         {
-            posts.length !== 0
-            ? <PostsList remove={removePost} posts={posts} title="Список постов 1"/>
+            sortedAndSearchedPosts.length !== 0
+            ? <PostsList
+                    remove={removePost}
+                    posts={sortedAndSearchedPosts}
+                    title="Список постов 1"/>
             : <h1 className={classes.PostPlaceHolder}>Посты не найдены</h1>
-
         }
 
     </div>
