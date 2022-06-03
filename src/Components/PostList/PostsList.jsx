@@ -1,7 +1,8 @@
 import React from 'react';
-import {useState} from "react";
- import classes from "./postList.module.scss";
+import classes from "./postList.module.scss";
 import PostItem from "../PostItem/PostItem";
+import './PostList.scss';
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 const PostsList = ({posts,title, remove}) => {
 
@@ -9,20 +10,26 @@ const PostsList = ({posts,title, remove}) => {
        return ( <h1 className={classes.PostPlaceHolder} >
             Посты не найдены
         </h1>)
-
-
-
     }
-
-
-
 
     return (
         <div>
             <h1 className={classes.title}>{title}</h1>
 
-            {  posts.map( (post, index)=>
-                <PostItem remove={remove} number={index+1} post={post} key={post.id}/>   )}
+
+            <TransitionGroup>
+                {  posts.map( (post, index)=>
+                    <CSSTransition
+                        key={post.id}
+                        timeout={500}
+                        classNames="post"
+                    >
+                    <PostItem remove={remove} number={index+1} post={post} />
+                    </CSSTransition>
+                )}
+            </TransitionGroup>
+
+
         </div>
     );
 };
